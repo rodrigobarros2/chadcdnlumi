@@ -1,4 +1,4 @@
-import { MenuIcon, Package2Icon, SearchIcon } from "lucide-react";
+import { MenuIcon, Package2Icon } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Button } from "../ui/button";
 import {
@@ -10,7 +10,6 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { ModeToggle } from "../modo-toggle";
-import { Input } from "../ui/input";
 import { Link } from "react-router-dom";
 
 export function Header() {

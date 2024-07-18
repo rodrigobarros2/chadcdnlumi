@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/pagination";
 import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
 import { Header } from "@/components/header";
+import { ArrowUpDown, ArrowUpDownIcon } from "lucide-react";
 
 export function Products() {
   const [filters, setFilters] = useState({
@@ -59,15 +60,15 @@ export function Products() {
   const filteredOrders = useMemo(() => {
     return [
       {
-        customerNumber: "1234",
-        referenceMonth: "June 2023",
-        electricityQuantity: "250 kWh",
-        electricityValue: "$250.00",
-        sceeQuantity: "100 kWh",
-        sceeValue: "$50.00",
-        compensatedQuantity: "50 kWh",
-        compensatedValue: "$25.00",
-        publicLightingContrib: "$10.00",
+        customerNumber: "9",
+        referenceMonth: "8",
+        electricityQuantity: "7",
+        electricityValue: "6",
+        sceeQuantity: "5",
+        sceeValue: "4",
+        compensatedQuantity: "3",
+        compensatedValue: "2",
+        publicLightingContrib: "1",
       },
       {
         customerNumber: "5678",
@@ -78,7 +79,7 @@ export function Products() {
         sceeValue: "$37.50",
         compensatedQuantity: "25 kWh",
         compensatedValue: "$12.50",
-        publicLightingContrib: "$7.50",
+        publicLightingContrib: "1",
       },
       {
         customerNumber: "9012",
@@ -89,7 +90,7 @@ export function Products() {
         sceeValue: "$75.00",
         compensatedQuantity: "75 kWh",
         compensatedValue: "$37.50",
-        publicLightingContrib: "$17.50",
+        publicLightingContrib: "1",
       },
       {
         customerNumber: "3456",
@@ -100,7 +101,7 @@ export function Products() {
         sceeValue: "$100.00",
         compensatedQuantity: "100 kWh",
         compensatedValue: "$50.00",
-        publicLightingContrib: "$22.50",
+        publicLightingContrib: "1",
       },
     ].filter((order) => {
       return (
@@ -121,74 +122,122 @@ export function Products() {
       <Header />
       <div className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
         <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-1">
-          <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
+          <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2 overflow-x-auto">
             <Tabs defaultValue="week">
               <TabsContent value="week">
                 <Card x-chunk="dashboard-05-chunk-3">
-                  <CardHeader className="px-7 justify-between items-center flex">
-                    <div>
-                      <CardTitle>Faturas</CardTitle>
-                      <CardDescription>
-                        Recent orders from your store.
-                      </CardDescription>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="h-7 gap-1 text-sm"
-                        onClick={handleRefreshTable}
-                      >
-                        <RefreshCwIcon className="h-3.5 w-3.5" />
-                        <span>Refresh</span>
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="h-7 gap-1 text-sm"
-                        onClick={handleExtractPdf}
-                      >
-                        <FileIcon className="h-3.5 w-3.5" />
-                        <span>Extract PDF</span>
-                      </Button>
-                    </div>
+                  <CardHeader>
+                    <CardTitle className="text-2xl font-bold">
+                      Faturas
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="gap-4 flex">
-                      <div className="flex-1 sm:flex-initial">
-                        <div className="relative">
-                          <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                          <Input
-                            placeholder="Filtrar Nº do Cliente"
-                            value={filters.customerNumber}
-                            onChange={(e) =>
-                              handleFilterChange(
-                                "customerNumber",
-                                e.target.value
-                              )
-                            }
-                            className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
-                          />
-                        </div>
+                    <div className="flex items-center mb-4">
+                      <div className="relative">
+                        <SearchIcon className="absolute left-2.5 top-3 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          placeholder="Filtrar Nº do Cliente"
+                          value={filters.customerNumber}
+                          onChange={(e) =>
+                            handleFilterChange("customerNumber", e.target.value)
+                          }
+                          className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
+                        />
+                      </div>
+
+                      <div className="flex items-center space-x-2 ml-auto">
+                        <Button variant="ghost" onClick={handleRefreshTable}>
+                          <RefreshCwIcon className="w-5 h-5 mr-2" />
+                          Recarregar
+                        </Button>
+                        <Button variant="default" onClick={handleExtractPdf}>
+                          <DownloadIcon className="w-5 h-5 g-3" />
+                          Extrair PDF
+                        </Button>
                       </div>
                     </div>
+
                     <Table>
                       <TableHeader>
                         <TableRow>
-                          <TableHead>Nº do Cliente</TableHead>
-                          <TableHead className="hidden sm:table-cell">
-                            Mês de referência
+                          <TableHead className="whitespace-nowrap">
+                            Nº do Cliente
                           </TableHead>
-                          <TableHead>Energia Elétrica kWh</TableHead>
-                          <TableHead>Energia Elétrica R$</TableHead>
-                          <TableHead>Energia SCEEE kWh</TableHead>
-                          <TableHead>Energia SCEEE R$</TableHead>
-                          <TableHead>Energia Compensada kWh</TableHead>
-                          <TableHead>Energia Compensada R$</TableHead>
-                          <TableHead>Contrib Ilum Publica Municipal</TableHead>
-                          <TableHead className="text-right">Download</TableHead>
+
+                          <TableHead className="whitespace-nowrap">
+                            Mês de referência
+                            <Button variant="ghost" size="icon">
+                              <ArrowUpDownIcon className="h-4 w-4" />
+                              <span className="sr-only">Sort</span>
+                            </Button>
+                          </TableHead>
+
+                          <TableHead className="whitespace-nowrap">
+                            Elétrica kWh
+                            <Button variant="ghost" size="icon">
+                              <ArrowUpDownIcon className="h-4 w-4" />
+                              <span className="sr-only">Sort</span>
+                            </Button>
+                          </TableHead>
+
+                          <TableHead className="whitespace-nowrap">
+                            Elétrica R$
+                            <Button variant="ghost" size="icon">
+                              <ArrowUpDownIcon className="h-4 w-4" />
+                              <span className="sr-only">Sort</span>
+                            </Button>
+                          </TableHead>
+
+                          <TableHead className="whitespace-nowrap">
+                            SCEEE kWh
+                            <Button variant="ghost" size="icon">
+                              <ArrowUpDownIcon className="h-4 w-4" />
+                              <span className="sr-only">Sort</span>
+                            </Button>
+                          </TableHead>
+
+                          <TableHead className="whitespace-nowrap">
+                            SCEEE R$
+                            <Button variant="ghost" size="icon">
+                              <ArrowUpDownIcon className="h-4 w-4" />
+                              <span className="sr-only">Sort</span>
+                            </Button>
+                          </TableHead>
+
+                          <TableHead className="whitespace-nowrap">
+                            Compensada kWh
+                            <Button variant="ghost" size="icon">
+                              <ArrowUpDownIcon className="h-4 w-4" />
+                              <span className="sr-only">Sort</span>
+                            </Button>
+                          </TableHead>
+
+                          <TableHead className="whitespace-nowrap">
+                            Compensada R$
+                            <Button variant="ghost" size="icon">
+                              <ArrowUpDownIcon className="h-4 w-4" />
+                              <span className="sr-only">Sort</span>
+                            </Button>
+                          </TableHead>
+
+                          <TableHead className="whitespace-nowrap">
+                            Contribuição Publica
+                            <Button variant="ghost" size="icon">
+                              <ArrowUpDownIcon className="h-4 w-4" />
+                              <span className="sr-only">Sort</span>
+                            </Button>
+                          </TableHead>
+
+                          <TableHead className="text-right whitespace-nowrap">
+                            Download
+                          </TableHead>
                         </TableRow>
                       </TableHeader>
+
+                      {/*    <TableHead className="cursor-pointer flex items-center gap-2">
+                        SCEE Value
+                      </TableHead> */}
+
                       <TableBody>
                         {filteredOrders.map((order, index) => (
                           <TableRow
@@ -200,9 +249,7 @@ export function Products() {
                                 {order.customerNumber}
                               </div>
                             </TableCell>
-                            <TableCell className="hidden sm:table-cell">
-                              {order.referenceMonth}
-                            </TableCell>
+                            <TableCell>{order.referenceMonth}</TableCell>
                             <TableCell>{order.electricityQuantity}</TableCell>
                             <TableCell>{order.electricityValue}</TableCell>
                             <TableCell>{order.sceeQuantity}</TableCell>
